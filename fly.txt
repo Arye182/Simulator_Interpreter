@@ -1,0 +1,55 @@
+openDataServer(5400)
+connectControlClient("127.0.0.1",5402)
+var warp -> sim("/sim/time/warp")
+var magnetos -> sim("/controls/switches/magnetos")
+var throttle -> sim("/controls/engines/current-engine/throttle")
+var mixture -> sim("/controls/engines/current-engine/mixture")
+var masterbat -> sim("/controls/switches/master-bat")
+var masterlat -> sim("/controls/switches/master-alt")
+var masteravionics -> sim("/controls/switches/master-avionics")
+var brakeparking -> sim("/sim/model/c172p/brake-parking")
+var primer -> sim("/controls/engines/engine/primer")
+var starter -> sim("/controls/switches/starter")
+var autostart -> sim("/engines/active-engine/auto-start")
+var breaks -> sim("/controls/flight/speedbrake")
+var heading <- sim("/instrumentation/heading-indicator/offset-deg")
+var airspeed <- sim("/instrumentation/airspeed-indicator/indicated-speed-kt")
+var roll <- sim("/instrumentation/attitude-indicator/indicated-roll-deg")
+var pitch <- sim("/instrumentation/attitude-indicator/internal-pitch-deg")
+var rudder -> sim("/controls/flight/rudder")
+var aileron -> sim("/controls/flight/aileron")
+var elevator -> sim("/controls/flight/elevator")
+var alt <- sim("/instrumentation/altimeter/indicated-altitude-ft")
+var rpm <- sim("/engines/engine/rpm")
+Print("waiting 2 minutes for gui")
+Sleep(120000)
+Print("let's start")
+warp = 32000
+Sleep(1000)
+magnetos = 3
+throttle = 0.2
+mixture = 0.949
+masterbat = 1
+masterlat = 1
+masteravionics = 1
+brakeparking = 0
+primer = 3
+starter = 1
+autostart = 1
+Print("engine is warming...")
+Print(rpm)
+while rpm <= 750 {
+	Print(rpm)
+}
+Sleep(5000)
+Print("let's fly")
+var h0 = heading
+breaks = 0
+throttle = 1
+while alt < 1000 {
+	rudder = (h0 - heading)/80
+	aileron = -roll / 70
+	elevator = pitch / 50
+	Sleep(250)
+}
+Print("done")

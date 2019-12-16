@@ -7,22 +7,24 @@
 
 #include <iostream>
 #include <thread>
+#include <pthread.h>
 #include "Command.h"
 #include <sys/socket.h>
 #include <string>
 #include <iostream>
 #include <unistd.h>
 #include <netinet/in.h>
+#define PORT 5400
 
 class OpenDataServerCommand : public Command {
 
  private:
   unsigned short port;
-  short hz;
+  //short hz;
 
  public:
-  OpenDataServerCommand(string port, string hz);
-  static void* readFromServer(void* params);
+  OpenDataServerCommand(string port);
+  static void* readFromServer(int loops, int condition);
   /*
  *
  * Create a socket

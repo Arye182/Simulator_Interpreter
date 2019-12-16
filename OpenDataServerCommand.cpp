@@ -2,65 +2,92 @@
 // Created by arye on 15/12/2019.
 //
 
+#include <strings.h>
 #include "OpenDataServerCommand.h"
+using namespace std;
 
-OpenDataServerCommand::OpenDataServerCommand(string port, string hz) {
-this->port = port;
-this->hz = hz;
+OpenDataServerCommand::OpenDataServerCommand(string port) {
+
+
 }
 
-void *OpenDataServerCommand::readFromServer(void *params) {
+
+
+void *OpenDataServerCommand::readFromServer(int loops, int condition) {
   return nullptr;
 }
 
+
+
 double OpenDataServerCommand::execute() {
   //create socket
+  unsigned  short int portl = 5400;
+  struct sockaddr_in serv_address{}, client_adress{};
   int socketfd = socket(AF_INET, SOCK_STREAM, 0);
   if (socketfd == -1) {
     //error
-    std::cerr << "Could not create a socket"<<std::endl;
+    cerr << "Could not create a socket"<<endl;
     return -1;
   }
-
   //bind socket to IP address
-  // we first need to create the sockaddr obj.
-  sockaddr_in address; //in means IP4
-  address.sin_family = AF_INET;
-  address.sin_addr.s_addr = INADDR_ANY; //give me any IP allocated for my machine
-  address.sin_port = htons(PORT);
+  ; //in means IP4
+  bzero((char *) &serv_address, sizeof(serv_address));
+  serv_address.sin_family = AF_INET;
+  serv_address.sin_addr.s_addr = INADDR_ANY; //give me any IP allocated for my machine
+  serv_address.sin_port = htons(portl);
+
+
+
+  //TODO
   //we need to convert our number
   // to a number that the network understands.
 
+
   //the actual bind command
-  if (bind(socketfd, (struct sockaddr *) &address, sizeof(address)) == -1) {
-    std::cerr<<"Could not bind the socket to an IP"<<std::endl;
+  if (bind(socketfd, (struct sockaddr *) &serv_address, sizeof(serv_address)) == -1) {
+    cerr<<"Could not bind the socket to an IP"<<endl;
     return -2;
   }
 
   //making socket listen to the port
-  if (listen(socketfd, 5) == -1) { //can also set to SOMAXCON (max connections)
-    std::cerr<<"Error during listening command"<<std::endl;
+  if (listen(socketfd, 5) == -1) { //can also set to SOMAXCON (max
+    // connections)
+    cerr<<"Error during listening command"<<endl;
     return -3;
-  } else{
-    std::cout<<"Server is now listening ..."<<std::endl;
+  } else {
+    cout<<"Server is now listening ..."<<endl;
   }
 
   // accepting a client
-  int client_socket = accept(socketfd, (struct sockaddr *)&address,
-                             (socklen_t*)&address);
-
+  int clientLength = sizeof(client_adress);
+  int client_socket = accept(socketfd, (struct sockaddr *)&client_adress,
+      (socklen_t*)&clientLength);
   if (client_socket == -1) {
-    std::cerr<<"Error accepting client"<<std::endl;
+    cerr<<"Error accepting client"<<endl;
     return -4;
+  } else {
+    cout<<"accepted ..."<<endl;
+  }
+
+  // A client is accepted
+  //auto param = new Parameters{};
+  //param->socket = newsockfd;
+  //param->hz = hz;
+  //param->port = port;
+
+
+  //TODO
+  //thread data_server_thread(readFromServer, 5, 0);
+
+  //reading from client
+  while (true) {
+    char buffer[1024] = {0};
+    int valread = read(client_socket, buffer, 1024);
+    cout << buffer << endl;
   }
 
   close(socketfd); //closing the listening socket
-
-  //reading from client
-  char buffer[1024] = {0};
-  int valread = read( client_socket , buffer, 1024);
-  std::cout<<buffer<<std::endl;
-
+  cout<<"Socket Closed ..."<<endl;
   //writing back to client
   //char *hello = "Hello, I can hear you! \n";
   //send(client_socket , hello , strlen(hello) , 0 );

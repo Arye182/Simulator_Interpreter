@@ -2,8 +2,8 @@
 // Created by Arye Amsalem on 04/11/2019.
 //
 
-#ifndef MATHINTERPRETER_MATHINTERPRETER_H
-#define MATHINTERPRETER_MATHINTERPRETER_H
+#ifndef SIMULATUR_INTERPRETER_MATHINTERPRETER_H
+#define SIMULATUR_INTERPRETER_MATHINTERPRETER_H
 #include <stack>
 #include <queue>
 #include <list>
@@ -130,4 +130,4 @@ class MathInterpreter {
   // the process itself of interpreting
   Expression *interpret(string expression);
 };
-#endif //MATHINTERPRETER_MATHINTERPRETER_H
+#endif //SIMULATUR_INTERPRETER_MATHINTERPRETER_H

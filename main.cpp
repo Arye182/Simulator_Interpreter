@@ -3,27 +3,32 @@
 #include "OpenDataServerCommand.h"
 #include "Lexer.h"
 #include "DataBase.h"
+#include <vector>
+#include <string>
 
-#define FILE_NAME_INDEX 1
+#define FILE_NAME_ARG_INDEX 1
 
 DataBase data_base;
 
 /**
  * Run the program
+ * activates the lexer, and parser (interpreter class) the parser runs
+ * the commands of flight.
  * @param file_name is the file name to read from.
  */
 void run(string file_name) {
   Lexer *lexer = new Lexer(file_name);
-  string lexer_data = lexer->getFlightUserInput();
-  Interpreter *parser = new Interpreter(lexer_data);
-  try {
-    parser->run();
-    // delete memory
-    delete parser;
-    delete lexer;
-  } catch (string msg) {
-    cout << msg << endl;
-  }
+  vector <vector<string>> lexer_data = lexer->lexTheFlightTextFile();
+  //TODO - interpreter :)
+  //Interpreter *parser = new Interpreter(lexer_data);
+//  try {
+//    parser->run();
+//    // delete memory
+//    delete parser;
+//    delete lexer;
+//  } catch (string msg) {
+//    cout << msg << endl;
+//  }
 }
 
 /**
@@ -33,11 +38,13 @@ void run(string file_name) {
  */
 int main(int argc, char *argv[]) {
   // notify that we start to run the program
-  data_base.setRunning(true);
-  run(argv[FILE_NAME_INDEX]);
-  data_base.setRunning(false);
+  //TODO
+  //data_base.setRunning(true);
+  run(argv[FILE_NAME_ARG_INDEX]);
+  //TODO
+  //data_base.setRunning(false);
   // delete allocated memory from the data
-  data_base.deleteMemory();
+  //data_base.deleteMemory();
   // close the pthread
   pthread_exit(nullptr);
 }

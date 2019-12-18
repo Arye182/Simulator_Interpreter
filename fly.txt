@@ -1,3 +1,4 @@
+sleep (12)
 openDataServer(5400)
 connectControlClient("127.0.0.1",5402)
 var warp -> sim("/sim/time/warp")

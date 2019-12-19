@@ -14,6 +14,7 @@ class Lexer {
  private:
   string flight_text_file;
   vector<vector<string>> text_commands_lexed;
+  vector<string> operators_to_check = {"<-","->","<=",">=","<",">","="};
  public:
   /**
  * Ctor
@@ -25,7 +26,7 @@ class Lexer {
  *
  * @param userFileName
  */
-  string removeSpaces(string line);
+  string removeToken(string line, char token);
   /* the function that lex the text file from user into vector(dynamic array)
    * of strings
   */

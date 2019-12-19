@@ -5,71 +5,109 @@
 #include "Lexer.h"
 #include <fstream>
 #include <algorithm>
-#include <list>
-#include "Interpreter.h"
 #include <iostream>
-#include <cstring>
-#include <sstream>
 #include <string>
+#include <map>
+
 using namespace std;
 using std::string;
-
-
 
 Lexer::Lexer(string userFileName) {
   this->flight_text_file = userFileName;
 }
-string Lexer::removeSpaces(string line){
-  string::iterator end_pos = std::remove(line.begin(), line.end(),' ');
+
+string Lexer::removeToken(string line, char token){
+  string::iterator end_pos = std::remove(line.begin(), line.end(),token);
   line.erase(end_pos, line.end());
   return line;
 }
-vector<vector<string>> Lexer::lexTheFlightTextFile(){
-  ifstream inFile;
-  // open the file stream
+
+vector<vector<string>> Lexer::lexTheFlightTextFile() {
+  ifstream inFile; // open the file stream
   inFile.open(this->flight_text_file);
-  // check if opening a file failed
-  if (inFile.fail()) {
+  if (inFile.fail()) { // check if opening a file failed
     cerr << "Error opeing a file" << endl;
     inFile.close();
     exit(1);
   }
   string line;
   // lex line after line - i chose to work in the onion slicing method
-  while (getline(inFile, line))
-  {
+  while (getline(inFile, line)) {
     vector<string> command_vector;
     // important keyword i look for in the string
     int has_while = line.find("while");
     int has_if = line.find("if");
     int has_var = line.find("var");
-    // minimize all spaces in the string
-    if (has_if != string::npos && has_while != string::npos && has_var != string::npos) {
-      line = this->removeSpaces(line);
-    } else { // dont minimize spaces after the keyword while, if, var
-      // TODO
+    int has_left_parent = line.find('(');
+    int has_sim = line.find("sim");
+    int has_print = line.find("Print");
+    map<int, string> has_key_words = {{has_while, "while"}, {has_if, "if"},
+        {has_var, "var"}};
+    // NOT var / while / if :
+    if (has_if == string::npos && has_while == string::npos && has_var ==
+        string::npos) {
+      // get rid of spaces
+      if (has_print == string::npos) {
+        line = this->removeToken(line, ' ');
+      }
+      // get rid of tabs
+      line = this->removeToken(line, '\t');
+      if (line.find('=') != string::npos) {
+        command_vector.push_back(line);
+      } else if (has_left_parent != string::npos) {
+        string left = line.substr(0, has_left_parent);
+        command_vector.push_back(left);
+        string right = line.erase(0, has_left_parent);
+        right = this->removeToken(right, '(');
+        right = this->removeToken(right, ')');
+        right = this->removeToken(right, '"');
+        command_vector.push_back(right);
+      }
+    } else {
+      // var / while / if :
+      // dont minimize spaces after the keyword while, if, var
       // put the keyword in a command vector and remove her from line :)
-
-      // take the rest of the line and minimize her for spaces
-
-      // parse the rest of line
-
-          // find "<-" , "->" , "=", "<=" , "<", ">" , ">=" .
-          // put every part (left, keyword, right" inside command vector
-              // for each string in the command vector do this shit:
-
-                  // find the sograim and split them into two pieces "()"
-                  // insert left and right to the fucking command vector and
-                  // then delete the origin ones.
+      for (auto it = has_key_words.begin(); it != has_key_words.end(); ++it) {
+        if (it->first != string::npos) {
+          command_vector.push_back(it->second);
+          line.erase(it->first, it->second.size());
+          line = this->removeToken(line, ' ');
+        }
+      }
+      // find "<-" , "->" , "=", "<=" , "<", ">" , ">=" .
+      // put every part (left, keyword, right" inside command vector
+      for (string op : this->operators_to_check) {
+        int has_op = line.find(op);
+        if (has_op != string::npos) {
+          string left = line.substr(0, has_op);
+          left = this->removeToken(left, '(');
+          command_vector.push_back(left);
+          line.erase(0, has_op);
+          command_vector.push_back(op);
+          line.erase(0, op.size());
+          string right = line;
+          if (has_sim != string::npos) {
+            left = line.substr(0, 4);
+            left = this->removeToken(left, '(');
+            command_vector.push_back(left);
+            line.erase(0, 4);
+            string right = line;
+            right = this->removeToken(right, ')');
+            right = this->removeToken(right, '"');
+            command_vector.push_back(right);
+            break;
+          }
+          right = this->removeToken(right, ')');
+          right = this->removeToken(right, '{');
+          command_vector.push_back(right);
+          break;
+        }
+      }
     }
-
-
-    //insert command to the commands vector
-    this->text_commands_lexed.push_back(command_vector);
-    cout << line << endl;
+    text_commands_lexed.push_back(command_vector);
   }
-  // close the file stream
-  inFile.close();
-  // return the vector of vectors :) (all the strings representing commands)
-  return this->text_commands_lexed;
+    // close the file stream
+    inFile.close();
+    // return the vector of vectors :) (all the strings representing commands)
+    return this->text_commands_lexed;
 }

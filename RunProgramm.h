@@ -9,14 +9,14 @@
 #include "Interpreter.h"
 #include "OpenDataServerCommand.h"
 #include "Lexer.h"
-#include "DataBase.h"
+//#include "DataBase.h"
 #include <vector>
 
 
 class RunProgramm {
  private:
   string file_name;
-  DataBase data_base;
+  //DataBase data_base;
  public:
   RunProgramm(string file);
   /**

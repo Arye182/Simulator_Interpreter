@@ -41,17 +41,19 @@ vector<vector<string>> Lexer::lexTheFlightTextFile() {
     int has_left_parent = line.find('(');
     int has_sim = line.find("sim");
     int has_print = line.find("Print");
+    int has_end_condition = line.find('}');
     map<int, string> has_key_words = {{has_while, "while"}, {has_if, "if"},
         {has_var, "var"}};
     // NOT var / while / if :
     if (has_if == string::npos && has_while == string::npos && has_var ==
         string::npos) {
-      // get rid of spaces
+      // get rid of spaces in case its not a print
       if (has_print == string::npos) {
         line = this->removeToken(line, ' ');
       }
       // get rid of tabs
       line = this->removeToken(line, '\t');
+      // assignments (set vars)
       if (line.find('=') != string::npos) {
         command_vector.push_back(line);
       } else if (has_left_parent != string::npos) {
@@ -104,7 +106,11 @@ vector<vector<string>> Lexer::lexTheFlightTextFile() {
         }
       }
     }
+    if (has_end_condition != string:: npos) {
+      command_vector.push_back("}");
+    }
     text_commands_lexed.push_back(command_vector);
+
   }
     // close the file stream
     inFile.close();

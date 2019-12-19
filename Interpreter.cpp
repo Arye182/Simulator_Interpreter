@@ -57,12 +57,12 @@ void Interpreter::parseLexedDataToCommandsVector() {
       }
 
       case CONDITIONAL:  {
-        cout << "conditionaling" << endl;
+        cout << "Begining Scope" << endl;
         break;
       }
 
       default: {
-        cout << "nothing happend!!!! baD!" << endl;
+        cout << "Ending Scope" << endl;
         break;
       }
     }

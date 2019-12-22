@@ -20,10 +20,11 @@ class OpenDataServerCommand : public Command {
 
  private:
   unsigned short port;
+  string port_string;
   //short hz;
 
  public:
-  OpenDataServerCommand(string port);
+  OpenDataServerCommand() = default;
   static void* readFromServer(int loops, int condition);
   /*
  *
@@ -36,6 +37,7 @@ class OpenDataServerCommand : public Command {
  *
  * */
   double execute() override;
+  void setParameters(vector <string> params) override ;
 };
 
 #endif //SIMULATUR_INTERPRETER__OPENDATASERVERCOMMAND_H_

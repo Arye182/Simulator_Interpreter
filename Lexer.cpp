@@ -33,6 +33,9 @@ vector<vector<string>> Lexer::lexTheFlightTextFile() {
   string line;
   // lex line after line - i chose to work in the onion slicing method
   while (getline(inFile, line)) {
+    if (line.empty()) {
+      continue;
+    }
     vector<string> command_vector;
     // important keyword i look for in the string
     int has_while = line.find("while");
@@ -58,11 +61,13 @@ vector<vector<string>> Lexer::lexTheFlightTextFile() {
         command_vector.push_back(line);
       } else if (has_left_parent != string::npos) {
         string left = line.substr(0, has_left_parent);
+        left = this->removeToken(left, '(');
         command_vector.push_back(left);
         string right = line.erase(0, has_left_parent);
         right = this->removeToken(right, '(');
         right = this->removeToken(right, ')');
         right = this->removeToken(right, '"');
+        // TODO add a split of "ddd","ddd" to 2 strings.
         command_vector.push_back(right);
       }
     } else {

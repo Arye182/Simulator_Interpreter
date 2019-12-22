@@ -6,4 +6,4 @@ set(CMAKE_CXX_STANDARD 14)
 add_executable(Simulator_Interpreter main.cpp Interpreter.h Interpreter.cpp
         Command.h OpenDataServerCommand.cpp OpenDataServerCommand.h
         data_server_tester.cpp
-        Expression.h Lexer.cpp Lexer.h RunProgramm.cpp RunProgramm.h PrintCommand.cpp PrintCommand.h SleepCommand.cpp SleepCommand.h IfCommand.cpp IfCommand.h WhileCommand.cpp WhileCommand.h)
+        Expression.h Lexer.cpp Lexer.h RunProgramm.cpp RunProgramm.h PrintCommand.cpp PrintCommand.h SleepCommand.cpp SleepCommand.h IfCommand.cpp IfCommand.h WhileCommand.cpp WhileCommand.h ConditionParser.cpp ConditionParser.h)

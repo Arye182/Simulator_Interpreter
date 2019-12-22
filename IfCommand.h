@@ -6,9 +6,14 @@
 #define SIMULATOR_INTERPRETER__IFCOMMAND_H_
 
 #include "Command.h"
+#include "ConditionParser.h"
 
-class IfCommand : public Command {
-
+class IfCommand : public ConditionParser {
+ public:
+  IfCommand(string condition_arg,
+            vector<Command *> commands_pointers_arg,
+            vector<vector<string>> commands_strings_arg);
+  double execute() override ;
 };
 
 #endif //SIMULATOR_INTERPRETER__IFCOMMAND_H_

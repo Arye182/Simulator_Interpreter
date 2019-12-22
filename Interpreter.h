@@ -8,7 +8,6 @@
 #include <string>
 #include <vector>
 #include <map>
-
 #include "Command.h"
 #include "PrintCommand.h"
 #include "SleepCommand.h"
@@ -16,30 +15,47 @@
 #include "IfCommand.h"
 #include "OpenDataServerCommand.h"
 
-
 using namespace std;
 
 class Interpreter {
  private:
+  // Raw Material
   vector<vector<string>> lexed_data_to_interpret;
-  vector<Command*> commands_to_run;
+  // commands to execute (we use map to indicate this shitty thing)
+  PrintCommand* print_command = new PrintCommand();
+  SleepCommand* sleep_command = new SleepCommand();
+  OpenDataServerCommand* open_data_server_command = new OpenDataServerCommand();
+  // conditional package
+  WhileCommand* while_command;
+  IfCommand* if_command;
+  bool is_if_command = false;
+  bool is_while_command = false;
+  string condition_string;
+  vector<vector<string>> while_strings_vectors;
+  vector<Command*> while_commands_pointers;
+  vector<vector<string>> if_strings_vectors;
+  vector<Command*> if_commands_pointers;
+  // map o(1) - with nice enumeration for switch
   enum simulatorCommand{
     OPEN_DATA_SERVER, CONNECT,
-    VAR, PRINT, SLEEP, INIT, CONDITIONAL
+    DEFINE_VAR, PRINT, SLEEP, ASSIGN, WHILE, IF, END_CONDITION
   };
   map<string,simulatorCommand> CMD_DICTIONARY = {
       {"openDataServer", OPEN_DATA_SERVER},
       {"connectControlClient", CONNECT},
-      {"var", VAR},
+      {"var", DEFINE_VAR},
       {"Print", PRINT},
       {"Sleep", SLEEP},
-      {"while", CONDITIONAL},
-      {"if", CONDITIONAL},
+      {"while", WHILE},
+      {"if", IF},
+      {"}" , END_CONDITION}
   };
+
  public:
   Interpreter(vector<vector<string>> lexed_data);
+  bool belongToCondition (vector<string> condition_string_vector_arg, Command*
+                    condition_command_pointer_arg);
   void parseLexedDataToCommandsVector();
-  void runCommands();
   void run();
 };
 

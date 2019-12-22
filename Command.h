@@ -4,6 +4,8 @@
 
 #ifndef SIMULATUR_INTERPRETER__COMMAND_H_
 #define SIMULATUR_INTERPRETER__COMMAND_H_
+#include <string>
+#include <vector>
 using namespace std;
 
 /*
@@ -13,5 +15,6 @@ using namespace std;
 class Command {
  public:
   virtual double execute() = 0;
+  virtual void setParameters(vector<string> params) = 0;
 };
 #endif //SIMULATUR_INTERPRETER__COMMAND_H_

@@ -13,8 +13,9 @@ class PrintCommand : public Command{
  private:
   string message;
  public:
-  PrintCommand(string msg);
+  PrintCommand() = default;
   double execute() override ;
+  void setParameters(vector<string> params) override ;
 };
 
 #endif //SIMULATOR_INTERPRETER__PRINTCOMMAND_H_

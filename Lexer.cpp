@@ -99,12 +99,16 @@ vector<vector<string>> Lexer::lexTheFlightTextFile() {
             command_vector.push_back(left);
             line.erase(0, 4);
             string right = line;
-            right = this->removeToken(right, ')');
+            if (op == "<-" && op == "->") {
+              right = this->removeToken(right, ')');
+            }
             right = this->removeToken(right, '"');
             command_vector.push_back(right);
             break;
           }
-          right = this->removeToken(right, ')');
+          if (op == "<-" && op == "->") {
+            right = this->removeToken(right, ')');
+          }
           right = this->removeToken(right, '{');
           command_vector.push_back(right);
           break;

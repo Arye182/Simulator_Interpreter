@@ -7,8 +7,7 @@
 double ConditionParser::execute() {
   int i = 0;
   for (Command *c : commands_pointers) {
-    vector<string> command_string_vector = this->commands_strings[i];
-    c->setParameters(command_string_vector);
+    c->setParameters(this->commands_strings[i]);
     c->execute();
     ++i;
   }

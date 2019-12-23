@@ -21,11 +21,13 @@ class OpenDataServerCommand : public Command {
  private:
   unsigned short port;
   string port_string;
+  int client_socket;
+  int* client_socket_pointer;
   //short hz;
 
  public:
   OpenDataServerCommand() = default;
-  static void* readFromServer(int loops, int condition);
+  static void* readFromServer(int* socket, int loops, int condition);
   /*
  *
  * Create a socket

@@ -43,7 +43,7 @@ while rpm <= 750 {
 }
 Sleep(5000)
 Print("let's fly")
-var h0 = heading
+var h0 <= (heading / 3 ) * 5
 breaks = 0
 throttle = 1
 while alt < 1000 {

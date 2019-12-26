@@ -14,6 +14,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <netinet/in.h>
+#include "DataBase.h"
 #define PORT 5400
 
 class OpenDataServerCommand : public Command {
@@ -27,7 +28,7 @@ class OpenDataServerCommand : public Command {
 
  public:
   OpenDataServerCommand() = default;
-  static void* readFromServer(int* socket, int loops, int condition);
+  static void* readFromServer(int* socket);
   /*
  *
  * Create a socket

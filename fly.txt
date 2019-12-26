@@ -1,3 +1,4 @@
+    Sleep(250)
 openDataServer(5400)
 connectControlClient("127.0.0.1",5402)
 var warp -> sim("/sim/time/warp")
@@ -23,6 +24,8 @@ var alt <- sim("/instrumentation/altimeter/indicated-altitude-ft")
 var rpm <- sim("/engines/engine/rpm")
 Print("waiting 2 minutes for gui")
 Sleep(120000)
+
+
 Print("let's start")
 warp = 32000
 Sleep(1000)
@@ -43,13 +46,13 @@ while rpm <= 750 {
 }
 Sleep(5000)
 Print("let's fly")
-var h0 <= (heading / 3 ) * 5
+var h0 = heading
 breaks = 0
 throttle = 1
 while alt < 1000 {
-	rudder = (h0 - heading)/80
-	aileron = -roll / 70
-	elevator = pitch / 50
-	Sleep(250)
+    rudder = (h0 - heading)/80
+    aileron = -roll / 70
+    elevator = pitch / 50
+    Sleep(250)
 }
-Print("done")
+Print("done you have successfully fly the Cesna now YOU CAN IT MOSES <3)

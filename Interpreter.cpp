@@ -3,14 +3,17 @@
 //
 
 #include "Interpreter.h"
+static DataBase* data = DataBase::getInstance();
 
 Interpreter::Interpreter(vector<vector<string>> lexed_data) {
   this->lexed_data_to_interpret = lexed_data;
 }
 
 void Interpreter::parseLexedDataToCommandsVector() {
-  int iteration = 0;
 
+  int iteration = 0;
+  // begin read text
+  data->setIsRunning(true);
   // iterate all the data that came from the lexer
   for (auto it = this->lexed_data_to_interpret.begin(); it !=
        this->lexed_data_to_interpret.end(); ++it, ++iteration) {
@@ -36,12 +39,33 @@ void Interpreter::parseLexedDataToCommandsVector() {
         break;
       }
       case CONNECT:  {
+        this->connect_command->setParameters(command_string_vector);
+        this->connect_command->execute();
         cout << "connecting to the simulator" << endl;
         break;
       }
       case DEFINE_VAR:  {
-        cout << "defining var (execute not ready yet)" << endl;
-        break;
+        if (this->belongToCondition(command_string_vector, this->define_var_command)) {
+          break;
+        } else {
+          this->define_var_command->setParameters(command_string_vector);
+          if (data->sim_var_map_lock.try_lock() && data->in_var_map_lock.try_lock()) {
+            this->define_var_command->execute();
+            cout << "defining var "<< command_string_vector[1] << endl;
+            data->printInVarMap();
+            data->sim_var_map_lock.unlock();
+            data->in_var_map_lock.unlock();
+          } else {
+            cout << "maps are locked by setSimData" << endl;
+          }
+
+//          this->define_var_command->execute();
+//          cout << "defining var "<< command_string_vector[1] << endl;
+//          data->sim_var_map_lock.unlock();
+//          data->in_var_map_lock.unlock();
+          break;
+        }
+
       }
       case SLEEP:  {
         if (this->belongToCondition(command_string_vector, this->sleep_command)) {
@@ -53,8 +77,22 @@ void Interpreter::parseLexedDataToCommandsVector() {
         }
       }
       case ASSIGN:  {
-        cout << "assigning variable (execute not ready yet)" << endl;
-        break;
+        // case it belongs to condition
+        if (this->belongToCondition(command_string_vector, this->assign_var_command)) {
+          break;
+        } else {
+          // case its just to execute
+          this->assign_var_command->setParameters(command_string_vector);
+          if (data->sim_var_map_lock.try_lock() && data->in_var_map_lock.try_lock()) {
+            this->assign_var_command->execute();
+            // unlock the maps
+            data->sim_var_map_lock.unlock();
+            data->in_var_map_lock.unlock();
+          } else {
+            cout<< "maps are locked by setSimData" << endl;
+          }
+          break;
+        }
       }
       case PRINT:  {
         if (this->belongToCondition(command_string_vector, this->print_command)) {
@@ -68,7 +106,8 @@ void Interpreter::parseLexedDataToCommandsVector() {
       case WHILE:  {
         this->is_while_command = true;
         // need to collect the commands in the vector :)
-        this->condition_string = command_string_vector[1];
+
+        this->condition_vector_string = command_string_vector;
         cout << "Begining Scope of while loop" << endl;
         break;
       }
@@ -76,6 +115,7 @@ void Interpreter::parseLexedDataToCommandsVector() {
         // need to collect the commands in the vector :)
         this->is_if_command = true;
         this->condition_string = command_string_vector[1];
+        this->condition_vector_string = command_string_vector;
         cout << "Begining Scope of if condition" << endl;
         break;
       }
@@ -83,7 +123,7 @@ void Interpreter::parseLexedDataToCommandsVector() {
         // if condition
         if (this->is_if_command) {
           // create a new if
-          this->if_command = new IfCommand(this->condition_string,
+          this->if_command = new IfCommand(this->condition_vector_string,
               this->if_commands_pointers, this->if_strings_vectors);
           // execute it (no set needed)
           this->if_command->execute();
@@ -95,7 +135,7 @@ void Interpreter::parseLexedDataToCommandsVector() {
         // while condition
         else if (this->is_while_command) {
           // create a new while
-          this->while_command = new WhileCommand(this->condition_string,
+          this->while_command = new WhileCommand(this->condition_vector_string,
               this->while_commands_pointers, this->while_strings_vectors);
           this->while_command->execute();
           // delete the old while
@@ -113,9 +153,13 @@ void Interpreter::parseLexedDataToCommandsVector() {
       }
     }
   }
+  // end of text commands
+  data->setIsRunning(false);
 }
 
 void Interpreter::run() {
+  data->sim_var_map_lock.unlock();
+  data->in_var_map_lock.unlock();
   this->parseLexedDataToCommandsVector();
 }
 
@@ -130,6 +174,16 @@ bool Interpreter::belongToCondition(vector<string> condition_string_vector_arg,
     this->while_strings_vectors.push_back(condition_string_vector_arg);
     return true;
   } else return false;
+}
+Interpreter::~Interpreter() {
+  delete(this->connect_command);
+  delete(this->open_data_server_command);
+  delete(this->if_command);
+  delete(this->print_command);
+  delete(this->while_command);
+  delete(this->sleep_command);
+  delete(this->assign_var_command);
+  delete(this->define_var_command);
 }
 
 

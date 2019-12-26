@@ -14,9 +14,9 @@ double ConditionParser::execute() {
   return 0;
 }
 
-ConditionParser::ConditionParser(string condition_arg, vector<Command *>
+ConditionParser::ConditionParser(vector<string> condition_arg, vector<Command *>
     commands_pointers_arg, vector<vector<string>> commands_strings_arg) {
-  this->condition = condition_arg;
+  this->condition_vector = condition_arg;
   this->commands_pointers = commands_pointers_arg;
   this->commands_strings = commands_strings_arg;
 }

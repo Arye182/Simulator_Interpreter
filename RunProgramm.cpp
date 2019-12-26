@@ -20,11 +20,9 @@ void RunProgramm::run() {
     // delete memory
     delete parser;
     delete lexer;
-  } catch (string msg) {
+  } catch (const char* msg) {
     cout << msg << endl;
   }
-  //TODO
-  //data_base.setRunning(false);
   // delete allocated memory from the data
   //data_base.deleteMemory();
   // close the pthread

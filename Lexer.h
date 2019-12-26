@@ -7,6 +7,11 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
+#include <algorithm>
+
+
+
 
 using namespace std;
 
@@ -31,6 +36,7 @@ class Lexer {
    * of strings
   */
   vector<vector<string>> lexTheFlightTextFile();
+  string trim(const std::string &s);
 };
 
 #endif //SIMULATOR_INTERPRETER__LEXER_H_

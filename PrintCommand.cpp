@@ -4,11 +4,16 @@
 
 #include <iostream>
 #include "PrintCommand.h"
+#include "DataBase.h"
 
+static DataBase* data = DataBase::getInstance();
 double PrintCommand::execute() {
-  // TODO check if the string msg is one of the planes variables - if so
-  //  print this var. else print the msg itself. as a string... :)
-  cout<< this->message << endl;
+  if (data->getInVarMap()->find(this->message) != data->getInVarMap()->end()) {
+    cout<< data->getInVarMap()->find(this->message)->first <<
+    ": " << data->getInVarMap()->find(this->message)->second->calculate()<<endl;
+  } else {
+    cout<< this->message <<  endl;
+  }
   return 0;
 }
 void PrintCommand::setParameters(vector<string> params) {

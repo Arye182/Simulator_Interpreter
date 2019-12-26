@@ -10,7 +10,7 @@
 
 class WhileCommand : public ConditionParser{
  public:
-  WhileCommand(string condition_arg,
+  WhileCommand(vector<string> condition_arg,
                vector<Command *> commands_pointers_arg,
                vector<vector<string>> commands_strings_arg);
   double execute() override;

@@ -23,6 +23,7 @@ string Lexer::removeToken(string line, char token){
 }
 
 vector<vector<string>> Lexer::lexTheFlightTextFile() {
+
   ifstream inFile; // open the file stream
   inFile.open(this->flight_text_file);
   if (inFile.fail()) { // check if opening a file failed
@@ -36,6 +37,8 @@ vector<vector<string>> Lexer::lexTheFlightTextFile() {
     if (line.empty()) {
       continue;
     }
+    // get rid of tabs
+    line = trim(line);
     vector<string> command_vector;
     // important keyword i look for in the string
     int has_while = line.find("while");
@@ -54,8 +57,6 @@ vector<vector<string>> Lexer::lexTheFlightTextFile() {
       if (has_print == string::npos) {
         line = this->removeToken(line, ' ');
       }
-      // get rid of tabs
-      line = this->removeToken(line, '\t');
       // assignments (set vars)
       if (line.find('=') != string::npos) {
         command_vector.push_back(line);
@@ -99,14 +100,14 @@ vector<vector<string>> Lexer::lexTheFlightTextFile() {
             command_vector.push_back(left);
             line.erase(0, 4);
             string right = line;
-            if (op == "<-" && op == "->") {
+            if (op == "<-" || op == "->") {
               right = this->removeToken(right, ')');
             }
             right = this->removeToken(right, '"');
             command_vector.push_back(right);
             break;
           }
-          if (op == "<-" && op == "->") {
+          if (op == "<-" || op == "->") {
             right = this->removeToken(right, ')');
           }
           right = this->removeToken(right, '{');
@@ -125,4 +126,20 @@ vector<vector<string>> Lexer::lexTheFlightTextFile() {
     inFile.close();
     // return the vector of vectors :) (all the strings representing commands)
     return this->text_commands_lexed;
+}
+string Lexer::trim(const std::string &s) {
+
+
+    auto start = s.begin();
+    while (start != s.end() && std::isspace(*start)) {
+      start++;
+    }
+
+    auto end = s.end();
+    do {
+      end--;
+    } while (std::distance(start, end) > 0 && std::isspace(*end));
+
+    return std::string(start, end + 1);
+
 }

@@ -13,24 +13,35 @@
 #include "SleepCommand.h"
 #include "WhileCommand.h"
 #include "IfCommand.h"
+#include "DefineVarCommand.h"
+#include "AssignVarCommand.h"
+
+
+
 #include "OpenDataServerCommand.h"
 
 using namespace std;
 
 class Interpreter {
  private:
+
   // Raw Material
   vector<vector<string>> lexed_data_to_interpret;
   // commands to execute (we use map to indicate this shitty thing)
   PrintCommand* print_command = new PrintCommand();
   SleepCommand* sleep_command = new SleepCommand();
   OpenDataServerCommand* open_data_server_command = new OpenDataServerCommand();
+  ConnectCommand* connect_command = new ConnectCommand();
+  AssignVarCommand* assign_var_command = new AssignVarCommand();
+  DefineVarCommand* define_var_command = new DefineVarCommand();
+
   // conditional package
   WhileCommand* while_command;
   IfCommand* if_command;
   bool is_if_command = false;
   bool is_while_command = false;
   string condition_string;
+  vector<string> condition_vector_string;
   vector<vector<string>> while_strings_vectors;
   vector<Command*> while_commands_pointers;
   vector<vector<string>> if_strings_vectors;
@@ -53,6 +64,7 @@ class Interpreter {
 
  public:
   Interpreter(vector<vector<string>> lexed_data);
+  ~Interpreter();
   bool belongToCondition (vector<string> condition_string_vector_arg, Command*
                     condition_command_pointer_arg);
   void parseLexedDataToCommandsVector();

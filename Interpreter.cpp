@@ -3,6 +3,7 @@
 //
 
 #include "Interpreter.h"
+
 static DataBase* data = DataBase::getInstance();
 
 Interpreter::Interpreter(vector<vector<string>> lexed_data) {
@@ -26,10 +27,8 @@ void Interpreter::parseLexedDataToCommandsVector() {
     if (this->CMD_DICTIONARY.find(command_string) != this->CMD_DICTIONARY.end()) {
       commandEnum = this->CMD_DICTIONARY[command_string];
     } else {
-      commandEnum = ASSIGN; // cant really do that ah? TODO try to think
-      // creatively with miri
+      commandEnum = ASSIGN;
     }
-
     // take a vector of strings and Execute it!
     switch (commandEnum) {
       case OPEN_DATA_SERVER:  {
@@ -52,17 +51,12 @@ void Interpreter::parseLexedDataToCommandsVector() {
           if (data->sim_var_map_lock.try_lock() && data->in_var_map_lock.try_lock()) {
             this->define_var_command->execute();
             cout << "defining var "<< command_string_vector[1] << endl;
-            data->printInVarMap();
+            //data->printInVarMap();
             data->sim_var_map_lock.unlock();
             data->in_var_map_lock.unlock();
           } else {
             cout << "maps are locked by setSimData" << endl;
           }
-
-//          this->define_var_command->execute();
-//          cout << "defining var "<< command_string_vector[1] << endl;
-//          data->sim_var_map_lock.unlock();
-//          data->in_var_map_lock.unlock();
           break;
         }
 
@@ -158,8 +152,8 @@ void Interpreter::parseLexedDataToCommandsVector() {
 }
 
 void Interpreter::run() {
-  data->sim_var_map_lock.unlock();
-  data->in_var_map_lock.unlock();
+  //data->sim_var_map_lock.unlock();
+  //data->in_var_map_lock.unlock();
   this->parseLexedDataToCommandsVector();
 }
 
@@ -175,6 +169,7 @@ bool Interpreter::belongToCondition(vector<string> condition_string_vector_arg,
     return true;
   } else return false;
 }
+
 Interpreter::~Interpreter() {
   delete(this->connect_command);
   delete(this->open_data_server_command);

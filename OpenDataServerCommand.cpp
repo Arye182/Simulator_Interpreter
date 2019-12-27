@@ -22,12 +22,13 @@ void *OpenDataServerCommand::readFromServer(int* soket) {
       cout << "maps are locked and i cant get inside them :(" << endl;
     }
   }
-  std::terminate();
+  //std::terminate();
+  return nullptr;
 }
 
 double OpenDataServerCommand::execute() {
   //create socket
-  unsigned  short int portl = 5400;
+  unsigned short int portl = 5400;
   struct sockaddr_in serv_address{}, client_adress{};
   int socketfd = socket(AF_INET, SOCK_STREAM, 0);
   if (socketfd == -1) {

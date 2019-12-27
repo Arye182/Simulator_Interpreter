@@ -15,6 +15,7 @@
 #include "IfCommand.h"
 #include "DefineVarCommand.h"
 #include "AssignVarCommand.h"
+#include "ConnectCommand.h"
 
 
 

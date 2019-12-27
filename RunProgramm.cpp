@@ -16,15 +16,16 @@ void RunProgramm::run() {
   // create a new interpreter - lexer
   Interpreter *parser = new Interpreter(lexer_data);
   try {
+    // run the commands with the help of the lexer
     parser->run();
-    // delete memory
+    // delete memory of parser and lexer
     delete parser;
     delete lexer;
   } catch (const char* msg) {
     cout << msg << endl;
   }
   // delete allocated memory from the data
-  //data_base.deleteMemory();
+  DataBase::getInstance()->deleteDataBase();
   // close the pthread
   pthread_exit(nullptr);
 }

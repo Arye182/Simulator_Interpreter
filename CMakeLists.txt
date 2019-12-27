@@ -9,4 +9,5 @@ add_executable(Simulator_Interpreter main.cpp Interpreter.h Interpreter.cpp
         Expression.h Lexer.cpp Lexer.h RunProgramm.cpp RunProgramm.h PrintCommand.cpp
         PrintCommand.h SleepCommand.cpp SleepCommand.h IfCommand.cpp IfCommand.h WhileCommand.cpp
         WhileCommand.h ConditionParser.cpp ConditionParser.h AssignVarCommand.cpp AssignVarCommand.h DataBase.cpp DataBase.h DefineVarCommand.cpp
-        DefineVarCommand.h Math.cpp Math.h Condition.h Condition.cpp)
+        DefineVarCommand.h Math.cpp Math.h Condition.h Condition.cpp
+        ConnectCommand.cpp ConnectCommand.h)

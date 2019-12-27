@@ -31,7 +31,7 @@ class Lexer {
  *
  * @param userFileName
  */
-  string removeToken(string line, char token);
+  static string removeToken(string line, char token);
   /* the function that lex the text file from user into vector(dynamic array)
    * of strings
   */

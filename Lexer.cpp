@@ -68,7 +68,6 @@ vector<vector<string>> Lexer::lexTheFlightTextFile() {
         right = this->removeToken(right, '(');
         right = this->removeToken(right, ')');
         right = this->removeToken(right, '"');
-        // TODO add a split of "ddd","ddd" to 2 strings.
         command_vector.push_back(right);
       }
     } else {
@@ -127,6 +126,7 @@ vector<vector<string>> Lexer::lexTheFlightTextFile() {
     // return the vector of vectors :) (all the strings representing commands)
     return this->text_commands_lexed;
 }
+
 string Lexer::trim(const std::string &s) {
 
 

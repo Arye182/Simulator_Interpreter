@@ -12,10 +12,11 @@
 //#include "DataBase.h"
 #include <vector>
 
-
 class RunProgramm {
  private:
   string file_name;
+  Lexer *lexer = nullptr;
+  Interpreter *parser = nullptr;
   //DataBase data_base;
  public:
   RunProgramm(string file);
@@ -26,6 +27,7 @@ class RunProgramm {
  * @param file_name is the file name to read from.
  */
   void run();
+  ~RunProgramm();
 };
 
 #endif //SIMULATOR_INTERPRETER__RUNPROGRAMM_H_

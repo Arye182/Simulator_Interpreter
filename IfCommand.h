@@ -14,7 +14,8 @@ class IfCommand : public ConditionParser {
   IfCommand(vector<string> condition_arg,
             vector<Command *> commands_pointers_arg,
             vector<vector<string>> commands_strings_arg);
-  double execute() override ;
+  double execute() override;
+  ~IfCommand() override = default;
 };
 
 #endif //SIMULATOR_INTERPRETER__IFCOMMAND_H_

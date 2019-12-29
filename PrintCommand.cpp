@@ -6,13 +6,14 @@
 #include "PrintCommand.h"
 #include "DataBase.h"
 
-static DataBase* data = DataBase::getInstance();
+static DataBase *data = DataBase::getInstance();
 double PrintCommand::execute() {
   if (data->getInVarMap()->find(this->message) != data->getInVarMap()->end()) {
-    cout<< data->getInVarMap()->find(this->message)->first <<
-    ": " << data->getInVarMap()->find(this->message)->second->calculate()<<endl;
+    cout << data->getInVarMap()->find(this->message)->first <<
+         ": " << data->getInVarMap()->find(this->message)->second->calculate()
+         << endl;
   } else {
-    cout<< this->message <<  endl;
+    cout << this->message << endl;
   }
   return 0;
 }

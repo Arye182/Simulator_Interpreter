@@ -8,9 +8,9 @@ using namespace std;
  */
 class Expression {
 
-public:
-    virtual double calculate() = 0;
-    virtual ~Expression(){}
+ public:
+  virtual double calculate() = 0;
+  virtual ~Expression() = default;
 };
 
 #endif //PROJECT_EXPRESSION_H

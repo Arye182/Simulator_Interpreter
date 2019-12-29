@@ -10,16 +10,13 @@
 #include <iostream>
 #include <algorithm>
 
-
-
-
 using namespace std;
 
 class Lexer {
  private:
   string flight_text_file;
   vector<vector<string>> text_commands_lexed;
-  vector<string> operators_to_check = {"<-","->","<=",">=","<",">","="};
+  vector<string> operators_to_check = {"<-", "->", "<=", ">=", "<", ">", "="};
  public:
   /**
  * Ctor
@@ -37,6 +34,7 @@ class Lexer {
   */
   vector<vector<string>> lexTheFlightTextFile();
   string trim(const std::string &s);
+  ~Lexer() = default;
 };
 
 #endif //SIMULATOR_INTERPRETER__LEXER_H_

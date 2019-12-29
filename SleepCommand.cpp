@@ -7,8 +7,6 @@
 #include "SleepCommand.h"
 
 double SleepCommand::execute() {
-  //cout<<"i am sleeping now for " <<
-  //this->time_to_sleep_string << " milliseconds!" << endl;
   std::this_thread::sleep_for(chrono::milliseconds(this->milliseconds));
   return 0;
 }

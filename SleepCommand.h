@@ -16,8 +16,9 @@ class SleepCommand : public Command {
   int milliseconds;
  public:
   SleepCommand() = default;
-  double execute() override ;
-  void setParameters(vector<string> params) override ;
+  double execute() override;
+  void setParameters(vector<string> params) override;
+  ~SleepCommand() override = default;
 };
 
 #endif //SIMULATOR_INTERPRETER__SLEEPCOMMAND_H_

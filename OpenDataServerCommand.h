@@ -23,12 +23,12 @@ class OpenDataServerCommand : public Command {
   unsigned short port;
   string port_string;
   int client_socket;
-  int* client_socket_pointer;
-  //short hz;
+  int *client_socket_pointer;
 
  public:
   OpenDataServerCommand() = default;
-  static void* readFromServer(int* socket);
+  ~OpenDataServerCommand() override;
+  static void *readFromServer(int *socket);
   /*
  *
  * Create a socket
@@ -40,7 +40,7 @@ class OpenDataServerCommand : public Command {
  *
  * */
   double execute() override;
-  void setParameters(vector <string> params) override ;
+  void setParameters(vector<string> params) override;
 };
 
 #endif //SIMULATUR_INTERPRETER__OPENDATASERVERCOMMAND_H_

@@ -8,21 +8,20 @@
 
 using namespace std;
 
-static DataBase* data = DataBase::getInstance();
+static DataBase *data = DataBase::getInstance();
 
-void *OpenDataServerCommand::readFromServer(int* soket) {
+void *OpenDataServerCommand::readFromServer(int *soket) {
   //reading from client
-  while (data->getIsRunning()) {
+  while (data->getIsRunning() && data->getInstance() != nullptr) {
     char buffer[1024] = {0};
     int valread = read(*soket, buffer, 1024);
-    string sim_line (buffer, valread);
-    if (data->sim_var_map_lock.try_lock() && data->in_var_map_lock.try_lock()) {
+    string sim_line(buffer, valread);
+    if (data->sim_var_map_lock.try_lock() && data->in_var_map_lock.try_lock()
+        && data->getInstance() != nullptr) {
       data->setSimData(sim_line);
-    } else {
-      cout << "maps are locked and i cant get inside them :(" << endl;
     }
   }
-  //std::terminate();
+  cout << "thread of opening data server ended" << endl;
   return nullptr;
 }
 
@@ -33,14 +32,15 @@ double OpenDataServerCommand::execute() {
   int socketfd = socket(AF_INET, SOCK_STREAM, 0);
   if (socketfd == -1) {
     //error
-    cerr << "Could not create a socket"<<endl;
+    cerr << "Could not create a socket" << endl;
     return -1;
   }
   //bind socket to IP address
   ; //in means IP4
   bzero((char *) &serv_address, sizeof(serv_address));
   serv_address.sin_family = AF_INET;
-  serv_address.sin_addr.s_addr = INADDR_ANY; //give me any IP allocated for my machine
+  serv_address.sin_addr.s_addr =
+      INADDR_ANY; //give me any IP allocated for my machine
   serv_address.sin_port = htons(portl);
 
   //TODO
@@ -48,39 +48,44 @@ double OpenDataServerCommand::execute() {
   // to a number that the network understands.
 
   //the actual bind command
-  if (bind(socketfd, (struct sockaddr *) &serv_address, sizeof(serv_address)) == -1) {
-    cerr<<"Could not bind the socket to an IP"<<endl;
+  if (bind(socketfd, (struct sockaddr *) &serv_address, sizeof(serv_address))
+      == -1) {
+    cerr << "Could not bind the socket to an IP" << endl;
     return -2;
   }
 
   //making socket listen to the port
   if (listen(socketfd, 5) == -1) { //can also set to SOMAXCON (max
     // connections)
-    cerr<<"Error during listening command"<<endl;
+    cerr << "Error during listening command" << endl;
     return -3;
   } else {
-    cout<<"Server is now listening ..."<<endl;
+    cout << "Server is now listening ..." << endl;
   }
 
   // accepting a client
   int clientLength = sizeof(client_adress);
-  this->client_socket = accept(socketfd, (struct sockaddr *)&client_adress,
-      (socklen_t*)&clientLength);
+  this->client_socket = accept(socketfd, (struct sockaddr *) &client_adress,
+                               (socklen_t *) &clientLength);
   this->client_socket_pointer = &client_socket;
   if (this->client_socket == -1) {
-    cerr<<"Error accepting client"<<endl;
+    cerr << "Error accepting client" << endl;
     return -4;
   } else {
-    cout<<"accepted ..."<<endl;
+    cout << "accepted ..." << endl;
   }
 
-  thread data_server_thread(readFromServer,client_socket_pointer);
+  thread data_server_thread(readFromServer, client_socket_pointer);
   data_server_thread.detach();
-
+  //TODO
   //close(socketfd); //closing the listening socket
   return 0;
 }
 
 void OpenDataServerCommand::setParameters(vector<string> params) {
   this->port_string = params[0];
+}
+
+OpenDataServerCommand::~OpenDataServerCommand() {
+  close(this->client_socket);
 }

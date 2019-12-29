@@ -25,7 +25,7 @@ var br -> sim("/controls/gear/brake-right")
 Print("waiting 1 minutes for gui")
 Sleep(60000)
 Print("let's start")
-warp = 32000
+
 Sleep(1000)
 magnetos = 3
 throttle = 0.2
@@ -49,6 +49,7 @@ var h0 = heading
 breaks = 0
 throttle = 1
 while alt < 1000 {
+   Print(alt)
    rudder = (h0 - heading)/80
    aileron = -roll / 70
    elevator = pitch / 50

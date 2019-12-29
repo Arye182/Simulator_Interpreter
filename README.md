@@ -1,14 +1,31 @@
 # Simulator_Interpreter
-this is our firs milestone project
-in course 8902101
+Quick Overview
+--------------
+this is our first milestone project in course 89210 that  
+we did in couples, at first it was very challenging but once  
+we understood the dividing work flow it all went much easier.
 
+What Is it All About?
+---------------------
+in this project we actually taking a plane Cesna and fly it to the sky.
 
-Heading
-=======
+# The Classes
+Arye's Classes:
+--------------      
+- Commands
+- Shtootgart
+- main
+- RunProgramm
 
-Sub-heading
------------
+Miri's Classes:
+---------------
+- Commands
+- Shtootgart
+- main
+- RunProgramm
 
+  
+ 
 Paragraphs are separated
 by a blank line.
 
@@ -24,19 +41,6 @@ Horizontal rule:
 
 Strikethrough:
 ~~strikethrough~~
-
-Bullet list:
-
-  * apples
-  * oranges
-  * pears
-
-Numbered list:
-
-  1. lather
-  2. rinse
-  3. repeat
-
 An [example](http://example.com).
 
 ![Image](Icon-pictures.png "icon")

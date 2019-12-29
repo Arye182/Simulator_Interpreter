@@ -28,9 +28,9 @@ RunProgramm::~RunProgramm() {
   delete this->lexer;
   delete this->parser;
   // delete allocated memory from the data
-  DataBase *d = DataBase::getInstance();
-  if (d != nullptr) {
-    delete (d);
+  DataBase *data_to_delete = DataBase::getInstance();
+  if (data_to_delete != nullptr) {
+    delete (data_to_delete);
   }
 }
 

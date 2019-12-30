@@ -3,14 +3,14 @@
 # Project Name : "THE FLIGHT-PRETER Ver. 1.00"
 Choose a self-explaining name for your project.
 
-#Personal Remark
+# Personal Remark  
 this is our first milestone project in course 89210 that  
 we did as couple and as a team. at first it was very challenging but once  
 we understood the dividing work flow it all went much easier.
 at first time we actually had to put our trust in each other and rely on the
 partner that everything he suppose to supply me is good (like a black box).
 
-#Description
+# Description  
 in this project we actually "take" a plane "Cessna-172-P" and depart it in the well
 known Flight-Gear (https://www.flightgear.org/) simulator of flight.
 our mission was to fly the plan successfully, but on top of that we actually

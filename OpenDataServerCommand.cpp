@@ -27,7 +27,6 @@ void *OpenDataServerCommand::readFromServer(int *soket) {
 
 double OpenDataServerCommand::execute() {
   //create socket
-  unsigned short int portl = 5400;
   struct sockaddr_in serv_address{}, client_adress{};
   int socketfd = socket(AF_INET, SOCK_STREAM, 0);
   if (socketfd == -1) {
@@ -35,18 +34,14 @@ double OpenDataServerCommand::execute() {
     cerr << "Could not create a socket" << endl;
     return -1;
   }
+  
   //bind socket to IP address
-  ; //in means IP4
   bzero((char *) &serv_address, sizeof(serv_address));
   serv_address.sin_family = AF_INET;
   serv_address.sin_addr.s_addr =
       INADDR_ANY; //give me any IP allocated for my machine
-  serv_address.sin_port = htons(portl);
-
-  //TODO
-  //we need to convert our number
-  // to a number that the network understands.
-
+  serv_address.sin_port = htons(this->port);
+  
   //the actual bind command
   if (bind(socketfd, (struct sockaddr *) &serv_address, sizeof(serv_address))
       == -1) {
@@ -77,13 +72,16 @@ double OpenDataServerCommand::execute() {
 
   thread data_server_thread(readFromServer, client_socket_pointer);
   data_server_thread.detach();
-  //TODO
-  //close(socketfd); //closing the listening socket
   return 0;
 }
 
 void OpenDataServerCommand::setParameters(vector<string> params) {
-  this->port_string = params[0];
+  this->port_string = params[1];
+  MathInterpreter *m = new MathInterpreter(DataBase::getInstance()->getInVarMap());
+  Expression* e = m->interpret(this->port_string);
+  this->port = e->calculate();
+  delete e;
+  delete m;
 }
 
 OpenDataServerCommand::~OpenDataServerCommand() {

@@ -13,7 +13,6 @@
 using namespace std;
 
 class ConditionParser : public Command {
-
  protected:
   string condition;
   vector<string> condition_vector;

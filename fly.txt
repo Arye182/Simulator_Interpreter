@@ -1,5 +1,5 @@
-openDataServer(5400)
-connectControlClient("10.0.2.2",5402)
+openDataServer(5000+400)
+connectControlClient("127.0.0.1",5400+2)
 var warp -> sim("/sim/time/warp")
 var magnetos -> sim("/controls/switches/magnetos")
 var throttle -> sim("/controls/engines/current-engine/throttle")
@@ -23,9 +23,8 @@ var alt <- sim("/instrumentation/altimeter/indicated-altitude-ft")
 var rpm <- sim("/engines/engine/rpm")
 var br -> sim("/controls/gear/brake-right")
 Print("waiting 1 minutes for gui")
-Sleep(60000)
+Sleep(10)
 Print("let's start")
-
 Sleep(1000)
 magnetos = 3
 throttle = 0.2

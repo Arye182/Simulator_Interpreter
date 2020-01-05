@@ -74,25 +74,31 @@ On some READMEs, you may see small images that convey metadata, such as whether 
 Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
 
 # Installation  
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-# Usage  
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+1. download the Flight-Gear simulator version 2018 (if you want 2019 you will
+ have to update the heading path).
+2. save the generic_small.xml  file in data/protocol dir of flight gear.
+3. add these 2 lines in te settings:
+    ---fffff
+    ---ffff
+4. open terminal and in the directory of the programm:
+5. type: g++ -std=c++14 *.cpp -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -o a.out -pthread
+6. run ./a.out fly.txt
+7. press Fly!
+8. watch the Cesna takes off!
 
 # Support  
-www.Arye_Miri.com  
 arye.amsalem@gmail.com
+miriyungreis@gmail.com
 
 # Roadmap  
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+none.
 
 # Contributing  
 none.
 
 # Authors and acknowledgment  
 in this opportunity i would like to praise and thank Miri Jungreis - my partner
-, that
-was very strong and dominant in managing the team of this project.
+, that was very strong and dominant in managing the team of this project.
 
 # License  
 All rights reserved for Arye & Miri - no open source in this point.

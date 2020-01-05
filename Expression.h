@@ -1,6 +1,6 @@
 
-#ifndef PROJECT_EXPRESSION_H
-#define PROJECT_EXPRESSION_H
+#ifndef SIMULATOR_INTERPRETER_EXPRESSION_H
+#define SIMULATOR_INTERPRETER_EXPRESSION_H
 
 using namespace std;
 /**
@@ -13,4 +13,4 @@ class Expression {
   virtual ~Expression() = default;
 };
 
-#endif //PROJECT_EXPRESSION_H
+#endif //SIMULATOR_INTERPRETER_EXPRESSION_H

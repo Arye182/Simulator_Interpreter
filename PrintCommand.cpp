@@ -7,6 +7,11 @@
 #include "DataBase.h"
 
 static DataBase *data = DataBase::getInstance();
+
+/**
+ *
+ * @return
+ */
 double PrintCommand::execute() {
   if (data->getInVarMap()->find(this->message) != data->getInVarMap()->end()) {
     cout << data->getInVarMap()->find(this->message)->first <<
@@ -17,6 +22,11 @@ double PrintCommand::execute() {
   }
   return 0;
 }
+
+/**
+ *
+ * @param params
+ */
 void PrintCommand::setParameters(vector<string> params) {
   this->message = params[1];
 }

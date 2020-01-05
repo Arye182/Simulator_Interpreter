@@ -12,16 +12,30 @@
 using namespace std;
 using std::string;
 
+/**
+ *
+ * @param userFileName
+ */
 Lexer::Lexer(string userFileName) {
   this->flight_text_file = userFileName;
 }
 
+/**
+ *
+ * @param line
+ * @param token
+ * @return
+ */
 string Lexer::removeToken(string line, char token) {
   string::iterator end_pos = std::remove(line.begin(), line.end(), token);
   line.erase(end_pos, line.end());
   return line;
 }
 
+/**
+ *
+ * @return
+ */
 vector<vector<string>> Lexer::lexTheFlightTextFile() {
 
   ifstream inFile; // open the file stream
@@ -126,6 +140,11 @@ vector<vector<string>> Lexer::lexTheFlightTextFile() {
   return this->text_commands_lexed;
 }
 
+/**
+ *
+ * @param s
+ * @return
+ */
 string Lexer::trim(const std::string &s) {
   auto start = s.begin();
   while (start != s.end() && std::isspace(*start)) {

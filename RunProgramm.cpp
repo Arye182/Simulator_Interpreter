@@ -4,10 +4,17 @@
 
 #include "RunProgramm.h"
 
+/**
+ *
+ * @param file
+ */
 RunProgramm::RunProgramm(string file) {
   this->file_name = file;
 }
 
+/**
+ *
+ */
 void RunProgramm::run() {
   // create a new Lexer
   this->lexer = new Lexer(this->file_name);
@@ -23,6 +30,9 @@ void RunProgramm::run() {
   }
 }
 
+/**
+ *
+ */
 RunProgramm::~RunProgramm() {
   // delete memory of parser and lexer
   delete this->lexer;

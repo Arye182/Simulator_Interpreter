@@ -10,6 +10,11 @@ using namespace std;
 
 static DataBase *data = DataBase::getInstance();
 
+/**
+ *
+ * @param soket
+ * @return
+ */
 void *OpenDataServerCommand::readFromServer(int *soket) {
   //reading from client
   while (data->getIsRunning() && data->getInstance() != nullptr) {
@@ -25,6 +30,10 @@ void *OpenDataServerCommand::readFromServer(int *soket) {
   return nullptr;
 }
 
+/**
+ *
+ * @return
+ */
 double OpenDataServerCommand::execute() {
   //create socket
   struct sockaddr_in serv_address{}, client_adress{};
@@ -75,6 +84,10 @@ double OpenDataServerCommand::execute() {
   return 0;
 }
 
+/**
+ *
+ * @param params
+ */
 void OpenDataServerCommand::setParameters(vector<string> params) {
   this->port_string = params[1];
   MathInterpreter *m = new MathInterpreter(DataBase::getInstance()->getInVarMap());
@@ -84,6 +97,9 @@ void OpenDataServerCommand::setParameters(vector<string> params) {
   delete m;
 }
 
+/**
+ *
+ */
 OpenDataServerCommand::~OpenDataServerCommand() {
   close(this->client_socket);
 }

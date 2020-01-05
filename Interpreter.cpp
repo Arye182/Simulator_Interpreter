@@ -6,6 +6,10 @@
 
 static DataBase *data = DataBase::getInstance();
 
+/**
+ *
+ * @param lexed_data
+ */
 Interpreter::Interpreter(vector<vector<string>> lexed_data) {
   this->lexed_data_to_interpret = lexed_data;
   this->print_command = new PrintCommand();
@@ -16,6 +20,9 @@ Interpreter::Interpreter(vector<vector<string>> lexed_data) {
   this->define_var_command = new DefineVarCommand();
 }
 
+/**
+ *
+ */
 void Interpreter::parseLexedDataToCommandsVector() {
   int iteration = 0;
   // begin read text
@@ -172,10 +179,19 @@ void Interpreter::parseLexedDataToCommandsVector() {
   std::this_thread::sleep_for(chrono::seconds(2));
 }
 
+/**
+ *
+ */
 void Interpreter::run() {
   this->parseLexedDataToCommandsVector();
 }
 
+/**
+ *
+ * @param condition_string_vector_arg
+ * @param condition_command_pointer_arg
+ * @return
+ */
 bool Interpreter::belongToCondition(vector<string> condition_string_vector_arg,
                                     Command *condition_command_pointer_arg) {
   if (this->is_if_command) {
@@ -189,6 +205,9 @@ bool Interpreter::belongToCondition(vector<string> condition_string_vector_arg,
   } else return false;
 }
 
+/**
+ *
+ */
 Interpreter::~Interpreter() {
   if (this->connect_command != nullptr) {
     delete (this->connect_command);

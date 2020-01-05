@@ -6,11 +6,19 @@
 #include <ostream>
 #include "SleepCommand.h"
 
+/**
+ *
+ * @return
+ */
 double SleepCommand::execute() {
   std::this_thread::sleep_for(chrono::milliseconds(this->milliseconds));
   return 0;
 }
 
+/**
+ *
+ * @param params
+ */
 void SleepCommand::setParameters(vector<string> params) {
   this->time_to_sleep_string = params[1];
   this->milliseconds = stod(this->time_to_sleep_string);

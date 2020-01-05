@@ -5,6 +5,12 @@
 #include <iostream>
 #include "WhileCommand.h"
 
+/**
+ *
+ * @param condition_arg
+ * @param commands_pointers_arg
+ * @param commands_strings_arg
+ */
 WhileCommand::WhileCommand(vector<string> condition_arg, vector<Command *>
 commands_pointers_arg, vector<vector<string>> commands_strings_arg) :
     ConditionParser(condition_arg,
@@ -12,6 +18,10 @@ commands_pointers_arg, vector<vector<string>> commands_strings_arg) :
                     commands_strings_arg) {
 }
 
+/**
+ *
+ * @return
+ */
 double WhileCommand::execute() {
   cout << "Executing while command..." << endl;
   Condition *cond = new Condition(this->condition_vector);

@@ -14,6 +14,7 @@ class SleepCommand : public Command {
  private:
   string time_to_sleep_string;
   int milliseconds;
+
  public:
   SleepCommand() = default;
   double execute() override;

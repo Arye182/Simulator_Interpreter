@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include "DataBase.h"
-#define PORT 5400
+
 
 class OpenDataServerCommand : public Command {
 
@@ -29,16 +29,6 @@ class OpenDataServerCommand : public Command {
   OpenDataServerCommand() = default;
   ~OpenDataServerCommand() override;
   static void *readFromServer(int *socket);
-  /*
- *
- * Create a socket
- * Bind our address to a requested address
- * Listen to incoming connections
- * Accept a connection
- * Write/read to and from the socket
- * Close the socket
- *
- * */
   double execute() override;
   void setParameters(vector<string> params) override;
 };

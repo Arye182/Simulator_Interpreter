@@ -13,18 +13,18 @@ using namespace std;
 using std::string;
 
 /**
- *
- * @param userFileName
+ * Ctor.
+ * @param userFileName - txt file to lex
  */
 Lexer::Lexer(string userFileName) {
   this->flight_text_file = userFileName;
 }
 
 /**
- *
+ * function the recieves a string and a token and removes it from it.
  * @param line
  * @param token
- * @return
+ * @return line without token in it
  */
 string Lexer::removeToken(string line, char token) {
   string::iterator end_pos = std::remove(line.begin(), line.end(), token);
@@ -33,8 +33,8 @@ string Lexer::removeToken(string line, char token) {
 }
 
 /**
- *
- * @return
+ * the major part of "pre processing" part - lexing the txt.
+ * @return the vector of vector of strings (each vector is a line in text)
  */
 vector<vector<string>> Lexer::lexTheFlightTextFile() {
 
@@ -141,9 +141,9 @@ vector<vector<string>> Lexer::lexTheFlightTextFile() {
 }
 
 /**
- *
- * @param s
- * @return
+ * trim function
+ * @param string to clear all white spaces from
+ * @return the string with no white spaces
  */
 string Lexer::trim(const std::string &s) {
   auto start = s.begin();

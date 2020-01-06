@@ -9,7 +9,6 @@
 #include "Interpreter.h"
 #include "OpenDataServerCommand.h"
 #include "Lexer.h"
-//#include "DataBase.h"
 #include <vector>
 
 class RunProgramm {
@@ -17,15 +16,9 @@ class RunProgramm {
   string file_name;
   Lexer *lexer = nullptr;
   Interpreter *parser = nullptr;
-  //DataBase data_base;
+
  public:
   RunProgramm(string file);
-  /**
- * Run the program
- * activates the lexer, and parser (interpreter class) the parser runs
- * the commands of flight.
- * @param file_name is the file name to read from.
- */
   void run();
   ~RunProgramm();
 };

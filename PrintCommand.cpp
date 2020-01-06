@@ -9,7 +9,7 @@
 static DataBase *data = DataBase::getInstance();
 
 /**
- *
+ * execute the print command - just print the message
  * @return
  */
 double PrintCommand::execute() {
@@ -24,7 +24,7 @@ double PrintCommand::execute() {
 }
 
 /**
- *
+ * set parameters of print command
  * @param params
  */
 void PrintCommand::setParameters(vector<string> params) {

@@ -6,7 +6,7 @@
 #include "WhileCommand.h"
 
 /**
- *
+ * Ctor.
  * @param condition_arg
  * @param commands_pointers_arg
  * @param commands_strings_arg
@@ -19,7 +19,7 @@ commands_pointers_arg, vector<vector<string>> commands_strings_arg) :
 }
 
 /**
- *
+ * execution with help of condition parser as composite pattern.
  * @return
  */
 double WhileCommand::execute() {

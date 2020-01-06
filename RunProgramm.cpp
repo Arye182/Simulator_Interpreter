@@ -5,7 +5,7 @@
 #include "RunProgramm.h"
 
 /**
- *
+ * Ctor.
  * @param file
  */
 RunProgramm::RunProgramm(string file) {
@@ -13,7 +13,9 @@ RunProgramm::RunProgramm(string file) {
 }
 
 /**
- *
+ * run the program flow
+ * activates the lexer, and parser (interpreter class) the parser runs
+ * the commands of flight.
  */
 void RunProgramm::run() {
   // create a new Lexer
@@ -31,7 +33,8 @@ void RunProgramm::run() {
 }
 
 /**
- *
+ * Dtor.
+ * closes what left..
  */
 RunProgramm::~RunProgramm() {
   // delete memory of parser and lexer

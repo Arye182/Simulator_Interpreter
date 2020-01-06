@@ -21,8 +21,8 @@
 using namespace std;
 
 class Interpreter {
- private:
 
+ private:
   // Raw Material
   vector<vector<string>> lexed_data_to_interpret;
   // commands to execute (we use map to indicate this shitty thing)
@@ -32,7 +32,6 @@ class Interpreter {
   ConnectCommand *connect_command = nullptr;
   AssignVarCommand *assign_var_command = nullptr;
   DefineVarCommand *define_var_command = nullptr;
-
   // conditional package
   WhileCommand *while_command = nullptr;
   IfCommand *if_command = nullptr;

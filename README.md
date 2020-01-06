@@ -54,36 +54,17 @@ The Classes (include 2 interfaces):
 - DefineVarCommand
 - DataBase (singleton)
 
-The Flow of the Programm:
--------------------------
-1. dffff
-2. ffff
-3. ffff
-4. fffff
-5. fffff
-6. ffff
-7. fffff
-8. fgfffff
-9. gfgfgf
-
-
-# Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-# Visuals  
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
 # Installation  
 1. download the Flight-Gear simulator version 2018 (if you want 2019 you will
  have to update the heading path).
 2. save the generic_small.xml  file in data/protocol dir of flight gear.
-3. add these 2 lines in te settings:
-    ---fffff
-    ---ffff
-4. open terminal and in the directory of the programm:
+3. add these 2 lines in te settings:  
+    --generic=socket,out,10,127.0.0.1,5400,tcp,generic_small   
+    --telnet=socket,in,10,127.0.0.1,5402,tcp
+4. open terminal in a linux system and in the directory of the programm:
 5. type: g++ -std=c++14 *.cpp -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -o a.out -pthread
 6. run ./a.out fly.txt
-7. press Fly!
+7. press Fly! in the simulator program
 8. watch the Cesna takes off!
 
 # Support  
@@ -105,5 +86,9 @@ All rights reserved for Arye & Miri - no open source in this point.
 
 # Project status  
 Mile Stone #1 - delivered.
+
+# Git Hub Link ~ ~ for instructors 89210
+https://github.com/Arye182/Simulator_Interpreter
+  
 
 

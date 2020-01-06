@@ -11,9 +11,11 @@ using namespace std;
 static DataBase *data = DataBase::getInstance();
 
 /**
+ * the thread function that reads all the tim a buffer from server.
+ * when getting a full line with 36 values set it to map (update)
  *
  * @param soket
- * @return
+ * @return null
  */
 void *OpenDataServerCommand::readFromServer(int *soket) {
   //reading from client
@@ -21,18 +23,22 @@ void *OpenDataServerCommand::readFromServer(int *soket) {
     char buffer[1024] = {0};
     int valread = read(*soket, buffer, 1024);
     string sim_line(buffer, valread);
-    if (data->sim_var_map_lock.try_lock() && data->in_var_map_lock.try_lock()
-        && data->getInstance() != nullptr) {
-      data->setSimData(sim_line);
+    // making sure it has 36 values between /n
+    int has_n = sim_line.find_first_of('\n');
+    int has_n2 = sim_line.find_last_of('\n');
+    if (has_n != -1 && has_n2 != -1) {
+      if (data->sim_var_map_lock.try_lock() && data->in_var_map_lock.try_lock()
+          && data->getInstance() != nullptr) {
+        data->setSimData(sim_line);
+      }
     }
   }
-  cout << "thread of opening data server ended" << endl;
   return nullptr;
 }
 
 /**
- *
- * @return
+ * execution of opening a data server - all the process like learned in Tirgul.
+ * @return 0.
  */
 double OpenDataServerCommand::execute() {
   //create socket
@@ -59,8 +65,7 @@ double OpenDataServerCommand::execute() {
   }
 
   //making socket listen to the port
-  if (listen(socketfd, 5) == -1) { //can also set to SOMAXCON (max
-    // connections)
+  if (listen(socketfd, 5) == -1) {
     cerr << "Error during listening command" << endl;
     return -3;
   } else {
@@ -78,14 +83,14 @@ double OpenDataServerCommand::execute() {
   } else {
     cout << "accepted ..." << endl;
   }
-
+  // create the thread
   thread data_server_thread(readFromServer, client_socket_pointer);
   data_server_thread.detach();
   return 0;
 }
 
 /**
- *
+ * sets the port
  * @param params
  */
 void OpenDataServerCommand::setParameters(vector<string> params) {
@@ -98,7 +103,8 @@ void OpenDataServerCommand::setParameters(vector<string> params) {
 }
 
 /**
- *
+ * Dtor.
+ * closes the socket.
  */
 OpenDataServerCommand::~OpenDataServerCommand() {
   close(this->client_socket);

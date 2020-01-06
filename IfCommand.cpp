@@ -21,9 +21,9 @@ commands_pointers_arg, vector<vector<string>> commands_strings_arg)
 }
 
 /**
+ * execute of if command - takes care of if statement
  *
- *
- * @return
+ * @return 0 if everything ok
  */
 double IfCommand::execute() {
   cout << "executing if command" << endl;

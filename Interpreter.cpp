@@ -7,8 +7,9 @@
 static DataBase *data = DataBase::getInstance();
 
 /**
- *
- * @param lexed_data
+ * Ctor. creates all new commands :)
+ * @param lexed_data - the vector of vector of strings that includes all
+ * instructions in strings for the parser (interpreter)
  */
 Interpreter::Interpreter(vector<vector<string>> lexed_data) {
   this->lexed_data_to_interpret = lexed_data;
@@ -21,11 +22,14 @@ Interpreter::Interpreter(vector<vector<string>> lexed_data) {
 }
 
 /**
- *
+ * using an enum and a map we obtain every command we want to execute
+ * according to the instruction that has to be executed.
+ * first we set the parameters, only afterwards we execute. if it is a
+ * conditional we save it and then execute... (we use composite design)
  */
 void Interpreter::parseLexedDataToCommandsVector() {
   int iteration = 0;
-  // begin read text
+  // begin read text (boolean flag)
   data->setIsRunning(true);
   // iterate all the data that came from the lexer
   for (auto it = this->lexed_data_to_interpret.begin(); it !=
@@ -35,7 +39,7 @@ void Interpreter::parseLexedDataToCommandsVector() {
     vector<string> command_string_vector = *it;
     // the key for switch
     int commandEnum;
-    // check the
+    // check the keyword
     if (this->CMD_DICTIONARY.find(command_string)
         != this->CMD_DICTIONARY.end()) {
       commandEnum = this->CMD_DICTIONARY[command_string];
@@ -65,8 +69,6 @@ void Interpreter::parseLexedDataToCommandsVector() {
           if (data->sim_var_map_lock.try_lock()
               && data->in_var_map_lock.try_lock()) {
             this->define_var_command->execute();
-            cout << "defining var " << command_string_vector[1] << endl;
-            //data->printInVarMap();
             data->sim_var_map_lock.unlock();
             data->in_var_map_lock.unlock();
           } else {
@@ -119,7 +121,6 @@ void Interpreter::parseLexedDataToCommandsVector() {
         this->is_while_command = true;
         // need to collect the commands in the vector :)
         this->condition_vector_string = command_string_vector;
-        cout << "Begining Scope of while loop" << endl;
         break;
       }
       case IF: {
@@ -127,7 +128,6 @@ void Interpreter::parseLexedDataToCommandsVector() {
         this->is_if_command = true;
         this->condition_string = command_string_vector[1];
         this->condition_vector_string = command_string_vector;
-        cout << "Begining Scope of if condition" << endl;
         break;
       }
       case END_CONDITION: {
@@ -164,7 +164,6 @@ void Interpreter::parseLexedDataToCommandsVector() {
         }
         this->is_if_command = false;
         this->is_while_command = false;
-        cout << "Condition Satisfied ! ! !" << endl;
         break;
       }
       default: {
@@ -176,21 +175,26 @@ void Interpreter::parseLexedDataToCommandsVector() {
   data->setIsRunning(false);
   data->sim_var_map_lock.lock();
   data->in_var_map_lock.lock();
+  // give the threads time to realize its over ... (cuz its so fast)
   std::this_thread::sleep_for(chrono::seconds(2));
 }
 
 /**
- *
+ * activate the parser!
  */
 void Interpreter::run() {
   this->parseLexedDataToCommandsVector();
 }
 
 /**
+ * this function is taking care of conditional part.
+ * if there is conditional instructions to save it will save and also it will
+ * return bool flag if this command is actually part of condition or not
+ * (scope).
  *
  * @param condition_string_vector_arg
  * @param condition_command_pointer_arg
- * @return
+ * @return true or false if the command belongs to conditional scope
  */
 bool Interpreter::belongToCondition(vector<string> condition_string_vector_arg,
                                     Command *condition_command_pointer_arg) {
@@ -206,7 +210,7 @@ bool Interpreter::belongToCondition(vector<string> condition_string_vector_arg,
 }
 
 /**
- *
+ * Dtor.
  */
 Interpreter::~Interpreter() {
   if (this->connect_command != nullptr) {

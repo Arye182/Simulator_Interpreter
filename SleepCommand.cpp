@@ -7,8 +7,8 @@
 #include "SleepCommand.h"
 
 /**
- *
- * @return
+ * sleep this thread
+ * @return 0
  */
 double SleepCommand::execute() {
   std::this_thread::sleep_for(chrono::milliseconds(this->milliseconds));
@@ -16,7 +16,7 @@ double SleepCommand::execute() {
 }
 
 /**
- *
+ * set ms for sleep
  * @param params
  */
 void SleepCommand::setParameters(vector<string> params) {
